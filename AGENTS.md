@@ -1,0 +1,13 @@
+## Agent skills
+
+### Issue tracker
+
+Issues live in GitHub Issues for `nmfairus-jtm/e-exam`, driven via the `gh` CLI. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+The five canonical triage labels use their default names: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context: one `CONTEXT.md` at the repo root, with decisions in `docs/adr/`. See `docs/agents/domain.md`.
