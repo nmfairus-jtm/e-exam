@@ -13,10 +13,13 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as RegisterRouteImport } from './routes/register'
+import { Route as AppIndexRouteImport } from './routes/app/index'
 import { Route as AppExamsRouteImport } from './routes/app/exams'
 import { Route as AppQuestionsRouteImport } from './routes/app/questions'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth.$'
 import { Route as AppExamBuilderExamIdRouteImport } from './routes/app/exam-builder.$examId'
+import { Route as AppExamReadExamIdRouteImport } from './routes/app/exam-read.$examId'
+import { Route as AppExamExamIdRouteImport } from './routes/app/exam.$examId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -38,6 +41,11 @@ const RegisterRoute = RegisterRouteImport.update({
   path: '/register',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppIndexRoute = AppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppExamsRoute = AppExamsRouteImport.update({
   id: '/exams',
   path: '/exams',
@@ -58,6 +66,16 @@ const AppExamBuilderExamIdRoute = AppExamBuilderExamIdRouteImport.update({
   path: '/exam-builder/$examId',
   getParentRoute: () => AppRoute,
 } as any)
+const AppExamReadExamIdRoute = AppExamReadExamIdRouteImport.update({
+  id: '/exam-read/$examId',
+  path: '/exam-read/$examId',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppExamExamIdRoute = AppExamExamIdRouteImport.update({
+  id: '/exam/$examId',
+  path: '/exam/$examId',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -66,18 +84,23 @@ export interface FileRoutesByFullPath {
   '/register': typeof RegisterRoute
   '/app/exams': typeof AppExamsRoute
   '/app/questions': typeof AppQuestionsRoute
+  '/app/': typeof AppIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/app/exam-builder/$examId': typeof AppExamBuilderExamIdRoute
+  '/app/exam-read/$examId': typeof AppExamReadExamIdRoute
+  '/app/exam/$examId': typeof AppExamExamIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/app/exams': typeof AppExamsRoute
   '/app/questions': typeof AppQuestionsRoute
+  '/app': typeof AppIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/app/exam-builder/$examId': typeof AppExamBuilderExamIdRoute
+  '/app/exam-read/$examId': typeof AppExamReadExamIdRoute
+  '/app/exam/$examId': typeof AppExamExamIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -87,8 +110,11 @@ export interface FileRoutesById {
   '/register': typeof RegisterRoute
   '/app/exams': typeof AppExamsRoute
   '/app/questions': typeof AppQuestionsRoute
+  '/app/': typeof AppIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/app/exam-builder/$examId': typeof AppExamBuilderExamIdRoute
+  '/app/exam-read/$examId': typeof AppExamReadExamIdRoute
+  '/app/exam/$examId': typeof AppExamExamIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -99,18 +125,23 @@ export interface FileRouteTypes {
     | '/register'
     | '/app/exams'
     | '/app/questions'
+    | '/app/'
     | '/api/auth/$'
     | '/app/exam-builder/$examId'
+    | '/app/exam-read/$examId'
+    | '/app/exam/$examId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/app'
     | '/login'
     | '/register'
     | '/app/exams'
     | '/app/questions'
+    | '/app'
     | '/api/auth/$'
     | '/app/exam-builder/$examId'
+    | '/app/exam-read/$examId'
+    | '/app/exam/$examId'
   id:
     | '__root__'
     | '/'
@@ -119,8 +150,11 @@ export interface FileRouteTypes {
     | '/register'
     | '/app/exams'
     | '/app/questions'
+    | '/app/'
     | '/api/auth/$'
     | '/app/exam-builder/$examId'
+    | '/app/exam-read/$examId'
+    | '/app/exam/$examId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -161,6 +195,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/': {
+      id: '/app/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/exams': {
       id: '/app/exams'
       path: '/exams'
@@ -189,19 +230,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppExamBuilderExamIdRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/exam-read/$examId': {
+      id: '/app/exam-read/$examId'
+      path: '/exam-read/$examId'
+      fullPath: '/app/exam-read/$examId'
+      preLoaderRoute: typeof AppExamReadExamIdRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/exam/$examId': {
+      id: '/app/exam/$examId'
+      path: '/exam/$examId'
+      fullPath: '/app/exam/$examId'
+      preLoaderRoute: typeof AppExamExamIdRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
 interface AppRouteChildren {
   AppExamsRoute: typeof AppExamsRoute
   AppQuestionsRoute: typeof AppQuestionsRoute
+  AppIndexRoute: typeof AppIndexRoute
   AppExamBuilderExamIdRoute: typeof AppExamBuilderExamIdRoute
+  AppExamReadExamIdRoute: typeof AppExamReadExamIdRoute
+  AppExamExamIdRoute: typeof AppExamExamIdRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppExamsRoute: AppExamsRoute,
   AppQuestionsRoute: AppQuestionsRoute,
+  AppIndexRoute: AppIndexRoute,
   AppExamBuilderExamIdRoute: AppExamBuilderExamIdRoute,
+  AppExamReadExamIdRoute: AppExamReadExamIdRoute,
+  AppExamExamIdRoute: AppExamExamIdRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
